@@ -26,7 +26,11 @@
 
 2) 直線除去  
 <img src="/images/ocr_images/直線除去.jpg" width = "500">  
-  
+**RemoveLinesFromImage関数**により直線除去を行う。
+処理内容はソーベルフィルタにより縦もしくは横方向にエッジ強調を行い、作成したエッジ強調画像に対しラベリング処理をかけ、ラベルの縦横比が15以上であれば線と判定し、除去を行う。この処理は縦方向・横方向に2回かけ、両方向の直線に対応させる。
+
+
+<img src="/images/ocr_images/直線除去_前.jpg" width = "300"> <img src="/images/ocr_images/直線除去_ソーベルフィルタ.jpg" width = "300">　<img src="/images/ocr_images/直線除去_後.jpg" width = "300">
  
  
  
