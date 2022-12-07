@@ -8,9 +8,9 @@
 2.	スキャンされた印刷文字   
       の2種類。現状**横書き**のみ対応している。
       
-例)  
+  
 <img src="/images/ocr_images/スキャンされた手書き文字.jpg" width = "500"> <img src="/images/ocr_images/スキャンされた印刷文字.jpg" width = "500">
- &emsp;       &emsp;　   　　__スキャンされた手書き文字__　　　　　　　　　　　　　　　　　　　　　　__スキャンされた印刷文字__    
+&emsp;　   　　　　　　　__スキャンされた手書き文字__　　　　　　　　　　　　　　　　　　　　__スキャンされた印刷文字__    
  
  
  
@@ -19,20 +19,55 @@
 処理は大きく分けて①文字抽出、②文字予測の2つに分かれている。
 
 ### ①文字抽出
-1. 前処理    
-1) ファイル読み込み  
+#### 1. 前処理  
+
+
+**1)ファイル読み込み**  
 <img src="/images/ocr_images/ファイル読み込み.jpg" width = "700">  
 文書の形式のみ手動で選択する。  
 
-2) 直線除去  
+
+**2)直線除去**  
 <img src="/images/ocr_images/直線除去.jpg" width = "500">  
 **RemoveLinesFromImage関数**により直線除去を行う。
 処理内容はソーベルフィルタにより縦もしくは横方向にエッジ強調を行い、作成したエッジ強調画像に対しラベリング処理をかけ、ラベルの縦横比が15以上であれば線と判定し、除去を行う。この処理は縦方向・横方向に2回かけ、両方向の直線に対応させる。
 
+<img src="/images/ocr_images/直線除去_前.jpg" width = "300">  <img src="/images/ocr_images/直線除去_ソーベルフィルタ.jpg" width = "300">　 <img src="/images/ocr_images/直線除去_後.jpg" width = "300">  
+&emsp; 　　　　　 __直線除去前__　　　　　　　　　　__ソーベルフィルタ（上下方向）__　　　　　　　　　　__直線除去後__      
 
-<img src="/images/ocr_images/直線除去_前.jpg" width = "300"> <img src="/images/ocr_images/直線除去_ソーベルフィルタ.jpg" width = "300">　<img src="/images/ocr_images/直線除去_後.jpg" width = "300">
- 
- 
+  
+**3)ノイズ除去**  
+<img src="/images/ocr_images/ノイズ除去.jpg" width = "500">  
+この後行う文字抽出に向け、**RemoveNoiseFromImage関数**では2値化等のノイズ除去処理を行う。  
+
+<img src="/images/ocr_images/ノイズ除去_前.jpg" width = "400">  <img src="/images/ocr_images/ノイズ除去_後.jpg" width = "400">  
+&emsp;  　　　                  　__ノイズ除去前__　　　　　　　　     　　　　__ノイズ除去後__  
+  
+#### 2.行認識
+文字列の行を認識する。  
+  
+**1)文字サイズの取得・図形の除去**  
+<img src="/images/ocr_images/文字サイズの取得・図形の切り出し.jpg" width = "900">  
+**GetCharSize関数**により、ノイズ除去した画像に対しラベリング処理をかけ、得られた１つ１つのラベル情報(面積・高さ・幅)の中央値を平均的な文字の面積・高さ・幅の情報として取得する。その後、**RemoveFigure関数**を用いて得られた文字サイズの情報からラベルサイズが大きすぎるものは図形と判定し、除去を行う。    
+
+**2)文字列の切り出し**  
+<img src="/images/ocr_images/文字列の切り出し.jpg" width = "900">  
+**FindLinePeak関数**では文書の左右方向にピクセル値を合計したピクセル値カーブを作成し、そのピークの高さから行の位置を判定する。
+**ConnectCharsOnLine関数**では判定した行の高さに対し、最も左側にある文字と最も右側にある文字をラベルの有無で判定する。文字かどうかはラベルの大きさがある一定を超えているかで判定する。その後、2文字間をつなぐ線を描画し、1つのその行全体が一つのラベルとして処理できるようにする。
+**DetectLines関数**ではConnectCharsOnLine関数で結合した行全体に対し外接矩形を求め、矩形内が1行となるようにする。文字列全体が斜めになっている場合に対応するため、外接矩形は回転を考慮し、openCVのminAreaRect関数を用いる。複数の矩形が重なっている場合は矩形同士の重なった面積の割合から、合わせて1つの行と認識するか、異なる行と認識するかを判定する。  
+
+<img src="/images/ocr_images/文字列の切り出し_1.jpg" width = "300">  <img src="/images/ocr_images/文字列の切り出し_2.jpg" width = "300">　 <img src="/images/ocr_images/文字列の切り出し_3.jpg" width = "300"> 
+
+
+
+
+
+
+
+
+
+
+
  
  
  
