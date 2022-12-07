@@ -8,4 +8,27 @@
 2.	スキャンされた印刷文字   
       の2種類。現状**横書き**のみ対応している。
       
-例）
+例)  
+<img src="/images/ocr_images/スキャンされた手書き文字.jpg" width = "500"> <img src="/images/ocr_images/スキャンされた印刷文字.jpg" width = "500">
+ &emsp;       &emsp;　   　　__スキャンされた手書き文字__　　　　　　　　　　　　　　　　　　　　　　__スキャンされた印刷文字__    
+ 
+ 
+ 
+ 
+## OCRプログラムファイル名：ocr/my_ocr.py
+処理は大きく分けて①文字抽出、②文字予測の2つに分かれている。
+
+### ①文字抽出
+1. 前処理    
+1) ファイル読み込み  
+<img src="/images/ocr_images/ファイル読み込み.jpg" width = "700">  
+文書の形式のみ手動で選択する。  
+
+2) 直線除去  
+<img src="/images/ocr_images/直線除去.jpg" width = "500">  
+  
+ 
+ 
+ 
+ 
+ 
