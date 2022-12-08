@@ -185,22 +185,26 @@ GPU: NVIDIA TITAN RTX**
 
 <img src="/images/training_images/学習画像例_1.jpg" width = "250">　　<img src="/images/training_images/学習画像例_2.jpg" width = "250">　　<img src="/images/training_images/学習画像例_3.jpg" width = "210">  
 　　　　　　　　　　　　　　　　　　　　　　　__学習画像例__  
-                       
+<br>
+<br>
 
 ### 水増し
 <img src="/images/training_images/水増し.jpg" width = "800">  
-学習時の水増しにはRandomRotationによる5度以内の回転、RandomAffineによる上下左右方向に10%以内の平行移動と0.8-1.2倍の拡大縮小処理を使用した。検証時には水増しを使用していない。  
+学習時の水増しにはRandomRotationによる5度以内の回転、RandomAffineによる上下左右方向に10%以内の平行移動と0.8-1.2倍の拡大縮小処理を使用した。検証時には水増しを使用していない。    
+<br>
 <br>
 
 ### 学習結果  
 <br>
 
 <img src="/images/training_images/学習過程.jpg" width = "800">  
+
 　　　　　　　　　　　　　　　　　　　　　　__学習過程__   
                           
 <br>
 
 <img src="/images/training_images/学習曲線.jpg" width = "800">  
+
 　　　　　　　　　　　　　　　　　　　　　　　__学習曲線__     
                           
 <br>
