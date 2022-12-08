@@ -195,15 +195,18 @@ GPU: NVIDIA TITAN RTX**
 ### 学習結果  
 <br>
 
-<img src="/images/training_images/学習過程.jpg" width = "800">    
-　　　　　　　　　　　__学習過程__    
+<img src="/images/training_images/学習過程.jpg" width = "800">  
+　　　　　　　　　　　　　　　　　　　　　　__学習過程__   
+                          
 <br>
 
 <img src="/images/training_images/学習曲線.jpg" width = "800">  
-　　　　　　　　　　　　　__学習曲線__   
+　　　　　　　　　　　　　　　　　　　　　　　__学習曲線__     
+                          
+<br>
 <br>
 
-最終的な学習のaccuracyは98.5%であった。20エポックあたりで精度が頭打ちになっていたため、early_stoppingの導入が有効と考えられる。また、Adam以外のオプティマイザーや学習率の変更などにより更なる精度の向上が期待できる。
+最終的な学習のaccuracyは**98.5%** であった。20エポックあたりで精度が頭打ちになっていたため、early_stoppingの導入が有効と考えられる。また、Adam以外のoptimizerや学習率の変更などにより更なる精度の向上が期待できる。
 
 
 
