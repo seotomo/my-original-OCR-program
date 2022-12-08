@@ -38,7 +38,7 @@
 <br>
 
 <img src="/images/ocr_images/直線除去_前.jpg" width = "300">  <img src="/images/ocr_images/直線除去_ソーベルフィルタ.jpg" width = "300">　 <img src="/images/ocr_images/直線除去_後.jpg" width = "300">  
-　　　　　　　　__直線除去前__　　　　　　　　　　__ソーベルフィルタ（上下方向）__　　　　　　　　　　__直線除去後__      
+　　　　　　　　__直線除去前__　　　　　　　　　__ソーベルフィルタ（上下方向）__　　　　　　　　　　__直線除去後__      
 <br>
 <br> 
   
