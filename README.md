@@ -325,7 +325,21 @@ transform2 = transforms.Compose([
 <br>
 <br>
 
-最終的な学習のaccuracyは**98.5%** であった。20エポックあたりで精度が頭打ちになっていたため、early_stoppingの導入が有効と考えられる。また、Adam以外のoptimizerや学習率の変更などにより更なる精度の向上が期待できる。
+最終的な学習のaccuracyは**98.5%** であった。20エポックあたりで精度が頭打ちになっていたため、early_stoppingの導入が有効と考えられる。また、Adam以外のoptimizerや学習率の変更などにより更なる精度の向上が期待できる。  
+<br>
+<br>  
+
+## 参考文献  
+**文字抽出**  
+・[OpenCVを使って画像の射影変換をしてみるwithPython-Qlita](https://qiita.com/mix_dvd/items/5674f26af467098842f0)  
+**深層学習**  
+・[ETL文字データベース](http://etlcdb.db.aist.go.jp/?lang=ja)  
+・[ETL文字データベース(etlcdb)を画像に変換する-Qlita](https://qiita.com/kcrt/items/a7f0582a91d6599d164d)  
+・[EMNIST:手書きアルファベット&数字の画像データセット:AI・機械学習のデータセット辞典-@IT](https://atmarkit.itmedia.co.jp/ait/articles/2009/28/news024.html)  
+・[転移学習で手書きのひらがな・漢字認識-Kludge Factory](https://tyfkda.github.io/blog/2022/05/26/hira-kan-recog.html)
+
+
+
 
 
 
