@@ -52,8 +52,15 @@ gray_img = RemoveLinesFromImage(gray_img, "vertical")
 <br> 
   
 **3)ノイズ除去**  
-<img src="/images/ocr_images/ノイズ除去.jpg" width = "400">  
-この後行う文字抽出に向け、**RemoveNoiseFromImage関数**では2値化等のノイズ除去処理を行う。  
+```
+#ノイズ除去
+if data_form == 0:
+    denoised_img = RemoveNoiseFromImage(gray_img)
+elif data_form == 1:
+    _, denoised_img = cv2.threshold(gray_img, 220, 255, cv2.THRESH_BINARY)
+```
+ノイズ除去ではこの後行う文字抽出に向け、文字とそれ以外の背景との２値化を行うが、手書き文字と印刷文字で処理内容を変えている。理由として、印刷文字は文字のピクセル値がほぼ一定であるが、手書き文字では文字のなかでも色が濃い部分と薄い部分のムラがあり、単純な２値化では文字以外の除去が難しいためである。
+手書き文字(data_form == 1)で利用する**RemoveNoiseFromImage関数**では2値化に平滑化処理を組み合わせている。  
 
 <img src="/images/ocr_images/ノイズ除去_前.jpg" width = "400">  <img src="/images/ocr_images/ノイズ除去_後.jpg" width = "400">  
 　　　　　　　　　　__ノイズ除去前__　　　　　　　　　　　　     　　　　__ノイズ除去後__  
