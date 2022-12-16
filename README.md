@@ -9,7 +9,7 @@
       の2種類。現在**横書き**のみ対応している。
       
   
-<img src="/images/ocr_images/スキャンされた手書き文字.jpg" width = "500"> <img src="/images/ocr_images/スキャンされた印刷文字.jpg" width = "500">  
+<img src="/images/ocr_images/スキャンされた手書き文字.jpg" width = "400">　　 <img src="/images/ocr_images/スキャンされた印刷文字.jpg" width = "400">  
 　　　　　　　　　__スキャンされた手書き文字__　　　　　　　　　　　　　　　　　　　　__スキャンされた印刷文字__    
 <br>  
 <br> 
