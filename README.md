@@ -310,9 +310,39 @@ transform2 = transforms.Compose([
 <br>
 
 ### 学習結果  
-<br>
 
-<img src="/images/training_images/学習過程.jpg" width = "800">  
+```
+EPOCHS:1 accuracy:23.9468 loss:0.0102 val_acc:75.8378 val_loss:0.0034  
+EPOCHS:2 accuracy:83.9688 loss:0.0019 val_acc:94.7933 val_loss:0.0006  
+EPOCHS:3 accuracy:93.6059 loss:0.0006 val_acc:96.6543 val_loss:0.0003  
+EPOCHS:4 accuracy:95.7753 loss:0.0004 val_acc:97.2727 val_loss:0.0002  
+EPOCHS:5 accuracy:96.7107 loss:0.0003 val_acc:97.6687 val_loss:0.0002  
+EPOCHS:6 accuracy:97.2333 loss:0.0002 val_acc:97.9062 val_loss:0.0001  
+EPOCHS:7 accuracy:97.6216 loss:0.0002 val_acc:97.9728 val_loss:0.0001  
+EPOCHS:8 accuracy:97.8791 loss:0.0001 val_acc:98.1296 val_loss:0.0001  
+EPOCHS:9 accuracy:98.0892 loss:0.0001 val_acc:98.2555 val_loss:0.0001  
+EPOCHS:10 accuracy:98.2521 loss:0.0001 val_acc:98.2468 val_loss:0.0001  
+EPOCHS:11 accuracy:98.3707 loss:0.0001 val_acc:98.2959 val_loss:0.0001  
+EPOCHS:12 accuracy:98.4819 loss:0.0001 val_acc:98.3750 val_loss:0.0001  
+EPOCHS:13 accuracy:98.5485 loss:0.0001 val_acc:98.3679 val_loss:0.0001  
+EPOCHS:14 accuracy:98.6245 loss:0.0001 val_acc:98.4297 val_loss:0.0001  
+EPOCHS:15 accuracy:98.6564 loss:0.0001 val_acc:98.5192 val_loss:0.0001  
+EPOCHS:16 accuracy:98.7361 loss:0.0001 val_acc:98.3972 val_loss:0.0001  
+EPOCHS:17 accuracy:98.7959 loss:0.0001 val_acc:98.4645 val_loss:0.0001  
+EPOCHS:18 accuracy:98.8771 loss:0.0001 val_acc:98.4653 val_loss:0.0001  
+EPOCHS:19 accuracy:98.8856 loss:0.0001 val_acc:98.4883 val_loss:0.0001  
+EPOCHS:20 accuracy:98.9212 loss:0.0001 val_acc:98.4637 val_loss:0.0001  
+EPOCHS:21 accuracy:98.9377 loss:0.0001 val_acc:98.5192 val_loss:0.0001  
+EPOCHS:22 accuracy:98.9957 loss:0.0001 val_acc:98.4558 val_loss:0.0001   
+EPOCHS:23 accuracy:99.0147 loss:0.0001 val_acc:98.5350 val_loss:0.0001  
+EPOCHS:24 accuracy:99.0519 loss:0.0001 val_acc:98.5564 val_loss:0.0001  
+EPOCHS:25 accuracy:99.0808 loss:0.0001 val_acc:98.4978 val_loss:0.0001  
+EPOCHS:26 accuracy:99.1091 loss:0.0000 val_acc:98.5714 val_loss:0.0001  
+EPOCHS:27 accuracy:99.1295 loss:0.0000 val_acc:98.5413 val_loss:0.0001  
+EPOCHS:28 accuracy:99.1323 loss:0.0000 val_acc:98.5255 val_loss:0.0001  
+EPOCHS:29 accuracy:99.1653 loss:0.0000 val_acc:98.5865 val_loss:0.0001  
+EPOCHS:30 accuracy:99.1933 loss:0.0000 val_acc:98.5366 val_loss:0.0001  
+```
 
 　　　　　　　　　　　　　　　　　　　　　　__学習過程__   
                           
