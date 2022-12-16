@@ -46,8 +46,8 @@ gray_img = RemoveLinesFromImage(gray_img, "vertical")
 処理内容はソーベルフィルタにより縦もしくは横方向にエッジ強調を行い、作成したエッジ強調画像に対しラベリング処理をかけ、ラベルの縦横比が15以上であれば線と判定し、除去を行う。この処理は縦方向・横方向に2回かけ、両方向の直線に対応させる。  
 <br>
 
-<img src="/images/ocr_images/直線除去_前.jpg" width = "300">  <img src="/images/ocr_images/直線除去_ソーベルフィルタ.jpg" width = "300">　 <img src="/images/ocr_images/直線除去_後.jpg" width = "300">  
-　　　　　　　　__直線除去前__　　　　　　　　　__ソーベルフィルタ（上下方向）__　　　　　　　　　　__直線除去後__      
+<img src="/images/ocr_images/直線除去_前.jpg" width = "250"> <img src="/images/ocr_images/直線除去_ソーベルフィルタ.jpg" width = "250">　<img src="/images/ocr_images/直線除去_後.jpg" width = "250">  
+　　　　　__直線除去前__　　　　　　　__ソーベルフィルタ（上下方向）__　　　　　　__直線除去後__      
 <br>
 <br> 
   
