@@ -25,14 +25,23 @@
 
 **1)ファイル読み込み**
 
-<img src="/images/ocr_images/ファイル読み込み.jpg" width = "700">  
+```
+#テキスト化したい文書画像のパス名
+filepath = "画像パス名"
+img = cv2.imread(filepath)
+gray_img = cv2.imread(filepath, 0)
+data_form = int(input("文書の形式（スキャンされた手書きデータ:0  スキャンされた印刷データ:1）: "))
+```
 文書の形式のみ手動で選択する。  
 <br>  
 <br>  
-<br>
 
 **2)直線除去**  
-<img src="/images/ocr_images/直線除去.jpg" width = "500">  
+```
+#直線除去
+gray_img = RemoveLinesFromImage(gray_img, "horizontal")
+gray_img = RemoveLinesFromImage(gray_img, "vertical")
+``` 
 **RemoveLinesFromImage関数**により直線除去を行う。
 処理内容はソーベルフィルタにより縦もしくは横方向にエッジ強調を行い、作成したエッジ強調画像に対しラベリング処理をかけ、ラベルの縦横比が15以上であれば線と判定し、除去を行う。この処理は縦方向・横方向に2回かけ、両方向の直線に対応させる。  
 <br>
@@ -56,13 +65,35 @@
 <br>
   
 **1)文字サイズの取得・図形の除去**  
-<img src="/images/ocr_images/文字サイズの取得・図形の除去.jpg" width = "900">  
+```
+#ラベリングによるレイアウト解析
+binary_img = cv2.bitwise_not(denoised_img)
+binary_img = cv2.erode(binary_img, kernel2)
+binary_img = cv2.dilate(binary_img, kernel2)
+label_numbers, labelimage, data, center = cv2.connectedComponentsWithStatsWithAlgorithm(binary_img, 8, cv2.CV_16U, cv2.CCL_DEFAULT)
+
+#文字サイズの取得
+char_area, char_height, char_width = GetCharSize(label_numbers, data)
+
+#図形の除去
+binary_img = RemoveFigure(binary_img, data, label_numbers, char_area)
+``` 
 **GetCharSize関数**により、ノイズ除去した画像に対しラベリング処理をかけ、得られた１つ１つのラベル情報(面積・高さ・幅)の中央値を平均的な文字の面積・高さ・幅の情報として取得する。その後、**RemoveFigure関数**を用いて得られた文字サイズの情報からラベルサイズが大きすぎるものは図形と判定し、除去を行う。
 <br>  
 <br>
 
 **2)文字列の位置を認識**  
-<img src="/images/ocr_images/文字列の切り出し.jpg" width = "00">  
+```
+#文字列の位置取得
+line_peaks = FindLinePeaks(binary_img, char_width, char_height, smooth_rate=4)
+
+#文字同士の連結
+binary_img = ConnectCharsOnLine(binary_img, line_peaks, labelimage, char_area)
+
+#文字列の切り出し
+binary_img, lines_position = DetectLines(binary_img)    
+lines_position = sorted(lines_position.items())
+```
 **FindLinePeak関数**では文書の左右方向にピクセル値を合計したピクセル値カーブを作成し、そのピークの高さから行の位置を判定する。
 **ConnectCharsOnLine関数**では判定した行の高さに対し、最も左側にある文字と最も右側にある文字をラベルの有無で判定する。文字かどうかはラベルの大きさがある一定を超えているかで判定する。その後、2文字間をつなぐ線を描画し、1つのその行全体が一つのラベルとして処理できるようにする。
 **DetectLines関数**ではConnectCharsOnLine関数で結合した行全体に対し外接矩形を求め、矩形内が1行となるようにする。文字列全体が斜めになっている場合に対応するため、外接矩形は回転を考慮し、openCVのminAreaRect関数を用いる。複数の矩形が重なっている場合は矩形同士の重なった面積の割合から、合わせて1つの行と認識するか、異なる行と認識するかを判定する。  
@@ -74,7 +105,13 @@
 
 
 **3)行の成形**   
-<img src="/images/ocr_images/行の成形.jpg" width = "600">  
+```
+#射影変換による行の成形
+lines_list, line_image_list = ProcessingLines(lines_position, gray_img)
+
+#行データを扱いやすい形に変更
+transformed_lines_list = TransformLinesList(lines_list)
+```
 **ProcessingLines関数**では外接矩形の傾きを補正するため、矩形の高さ、幅はそのままで射影変換を行い、行全体を水平に変換する。
 **TransformLinesList関数**ではそれぞれの行の左上のy軸ピクセル値を連番に変換し、この後の文字抽出で処理がしやすくなるようにする。  
 <br>  
@@ -85,7 +122,10 @@
 <br>
 
 **1)文字の位置を認識**  
-<img src="/images/ocr_images/文字の抽出.jpg" width = "600">  
+```
+#文字の検出
+char_list = DetectChars(transformed_lines_list, line_image_list, data_form)
+```
 **DetectChars関数**では抽出したそれぞれの行に対し処理をかけ、さらに1文字ずつ抽出している。まず1つの行に対し上下方向にピクセル値を合計したピクセル値カーブを作成し、ピクセル合計値が0から1以上に変化している場所は文字の始まりの位置、1以上から０に変化している場所は文字の終わりの位置として認識する。その後文字の幅が狭すぎる場合は両サイドの文字との間や両サイドの文字の幅を確認し、1つの文字として結合するかを判定、結合を行う。また、文字の幅が広すぎる場合は複数の文字がつながっていると判定し、ピクセルカーブのピクセル合計値が小さな位置で分離を行い、文字同士を切り離す。文字結合や分離に用いたパラメータは文書の形式によって変えている。（規則正しく文字が並ぶ印刷文字と文字の大きさにばらつきがある手書き文字で同一のパラメータを用いるのは不適と考えたため。）最終的に抽出した1文字の枠内に対し、学習したAIモデルを適応するため、DetectChars関数内では**PreprocessingForLearning関数**を用いて文字予測の前処理を行っている。  
 <br>
 <img src="/images/ocr_images/抽出した文字(例).jpg" width = "600">  
@@ -96,13 +136,59 @@
 
 ### ②文字予測
 **1)モデルの読み込み**  
-<img src="/images/ocr_images/モデルの読み込み.jpg" width = "600">  
+```
+#文字認識
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+CHAR_CLASS = 3157
+#モデルの作成
+model = EfficientNet.from_pretrained('efficientnet-b0')
+num_ftrs = model._fc.in_features
+model._fc = nn.Linear(num_ftrs, CHAR_CLASS)
+
+#学習済みモデルのパス名
+model_path = 'OCR_pytorch.pth'
+#文字とラベル番号の対応関係を記録した.npyファイルのパス名
+labels_path = 'labels.npy'
+model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
+labels = np.load(labels_path)
+```
 学習済みモデルのファイルと文字とラベル番号の対応関係を記録した.npyファイルを読み込む。（詳しくは学習の項を参照）
 <br>  
 <br>
 
 **2)文字予測**  
-<img src="/images/ocr_images/文字予測.jpg" width = "450">   
+```
+transform = transforms.Compose([
+                    # Tensor型に変換する
+                    transforms.ToTensor(),
+                    # 色情報の標準化をする
+                    transforms.Normalize(0.5, 0.5, 0.5)
+                ])
+
+model = model.eval()
+predict = []
+gyou = 1
+print("テキスト化を実行中・・・")
+with open("output_sentense.txt","w") as f:
+    for y_row, x_column, char_image in tqdm(char_list):
+        char_image = Image.fromarray(char_image).convert("RGB")
+        char_image = transform(char_image).unsqueeze(0)
+        # 予測を実施
+        output = model(char_image.to(device))
+        _, prediction = torch.max(output, 1)
+        result = labels[prediction[0].item()]
+
+        a = "1B2442" + str(result) + "1B2842"
+   
+        b = bytes.fromhex(a)
+        b = b.decode("iso-2022-jp")
+        
+        if y_row != gyou:
+            f.write("\n")
+        f.write(str(b))    
+
+        gyou = y_row
+```
 DetectChars関数から得られた1文字1文字の画像データを学習済みモデルに渡し、文字予測を行い、テキストファイルとして書き起こす。行の高さが異なる場合は改行される。
 <br>  
 <br>
@@ -154,20 +240,20 @@ EMNIST-byclass：/training/EMNIST_to_image.py**
 <br>
 <br>
 
-文字データベース(ETL1等)　‐---　文字コード1　------　画像1  
-　　　　　　　　　　　　　　　　　　　　　------　画像2  
-　　　　　　　　　　　　　　　　　　　　　------　画像3  
-　　　　　　　　　　　　　　　　　　　　　　・  
-　　　　　　　　　　　　　　　　　　　　　　・  
-　　　　　　　　　　　　　　　　　　　　　　・  
-　　　　　　　　　　　　　　　　　　　　　------　画像200
+文字データベース(ETL1等)　───　文字コード1　───　画像1  
+　　　　　　　　　　　　　　　　　　　　　　 ───　画像2  
+　　　　　　　　　　　　　　　　　　　　　　 ───　画像3  
+　　　　　　　　　　　　　　　　　　　　　　　・  
+　　　　　　　　　　　　　　　　　　　　　　　・  
+　　　　　　　　　　　　　　　　　　　　　　　・  
+　　　　　　　　　　　　　　　　　　　 　　　───　画像200
 <br>               
-　　　　　　　　　　　　　----　文字コード2　------　画像1  
-　　　　　　　　　　　　　　　　　　　　　　------　画像2  
-　　　　　　　　　　　　　　　　　　　　　　・  
-　　　　　　　　　　　　　　　　　　　　　　・                                          
-　　　　　　　　　　　　　　　　　　　　　　・   
-<br>                   
+　　　　　　　　　　　　　───　文字コード2　───　画像1  
+　　　　　　　　　　　　　　　　　　　 　　　  ───　画像2  
+　　　　　　　　　　　　　　　　　　　　　  　　・  
+　　　　　　　　　　　　　　　　　　　  　　　　・  
+　　　　　　　　　　　　　　　　　　　  　　　　・  
+                                          
 　　　　　　　　__学習画像のディレクトリ構造__  
 <br> 
 <br>
@@ -201,7 +287,24 @@ GPU: NVIDIA TITAN RTX**
 <br>
 
 ### 水増し
-<img src="/images/training_images/水増し.jpg" width = "800">  
+```
+transform1 = transforms.Compose([
+                #回転・移動・縮小
+                transforms.RandomRotation(degrees=5, fill=0),
+                transforms.RandomAffine(degrees=[0, 0], translate=(0.1, 0.1), scale=(0.8, 1.2), fill=0),
+                #Tensor型に変換
+                transforms.ToTensor(),
+                #色情報の標準化
+                transforms.Normalize(0.5, 0.5, 0.5)
+            ])
+
+transform2 = transforms.Compose([
+                #Tensor型に変換
+                transforms.ToTensor(),
+                #色情報の標準化
+                transforms.Normalize(0.5, 0.5, 0.5)
+            ])
+```
 学習時の水増しにはRandomRotationによる5度以内の回転、RandomAffineによる上下左右方向に10%以内の平行移動と0.8-1.2倍の拡大縮小処理を使用した。検証時には水増しを使用していない。    
 <br>
 <br>
