@@ -362,6 +362,7 @@ EPOCHS:30 accuracy:99.1933 loss:0.0000 val_acc:98.5366 val_loss:0.0001
 ## 参考文献  
 **文字抽出**  
 ・[OpenCVを使って画像の射影変換をしてみるwithPython-Qlita](https://qiita.com/mix_dvd/items/5674f26af467098842f0)  
+・[領域（輪郭）の特徴-OpenCV-Python Tutorials 1 documentation](http://labs.eecs.tottori-u.ac.jp/sd/Member/oyamada/OpenCV/html/py_tutorials/py_imgproc/py_contours/py_contour_features/py_contour_features.html)  
 **深層学習**  
 ・[ETL文字データベース](http://etlcdb.db.aist.go.jp/?lang=ja)  
 ・[ETL文字データベース(etlcdb)を画像に変換する-Qlita](https://qiita.com/kcrt/items/a7f0582a91d6599d164d)  
