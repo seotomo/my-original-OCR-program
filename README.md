@@ -46,8 +46,8 @@ gray_img = RemoveLinesFromImage(gray_img, "vertical")
 処理内容はソーベルフィルタにより縦もしくは横方向にエッジ強調を行い、作成したエッジ強調画像に対しラベリング処理をかけ、ラベルの縦横比が15以上であれば線と判定し、除去を行う。この処理は縦方向・横方向に2回かけ、両方向の直線に対応させる。  
 <br>
 
-<img src="/images/ocr_images/直線除去_前.jpg" width = "250"> <img src="/images/ocr_images/直線除去_ソーベルフィルタ.jpg" width = "250">　<img src="/images/ocr_images/直線除去_後.jpg" width = "250">  
-　　　　　__直線除去前__　　　　　　　__ソーベルフィルタ（上下方向）__　　　　　　__直線除去後__      
+<img src="/images/ocr_images/直線除去_前.jpg" width = "260"> <img src="/images/ocr_images/直線除去_ソーベルフィルタ.jpg" width = "260">　<img src="/images/ocr_images/直線除去_後.jpg" width = "260">  
+　　　　　　__直線除去前__　　　　　　　__ソーベルフィルタ（上下方向）__　　　　　　　__直線除去後__      
 <br>
 <br> 
   
@@ -105,8 +105,8 @@ lines_position = sorted(lines_position.items())
 **ConnectCharsOnLine関数**では判定した行の高さに対し、最も左側にある文字と最も右側にある文字をラベルの有無で判定する。文字かどうかはラベルの大きさがある一定を超えているかで判定する。その後、2文字間をつなぐ線を描画し、1つのその行全体が一つのラベルとして処理できるようにする。
 **DetectLines関数**ではConnectCharsOnLine関数で結合した行全体に対し外接矩形を求め、矩形内が1行となるようにする。文字列全体が斜めになっている場合に対応するため、外接矩形は回転を考慮し、openCVのminAreaRect関数を用いる。複数の矩形が重なっている場合は矩形同士の重なった面積の割合から、合わせて1つの行と認識するか、異なる行と認識するかを判定する。  
 
-<img src="/images/ocr_images/文字列の切り出し_1.jpg" width = "300">  <img src="/images/ocr_images/文字列の切り出し_2.jpg" width = "300">　 <img src="/images/ocr_images/文字列の切り出し_3.jpg" width = "300">  
-　　　　　　　__行の位置判定__　　　　　　　　　　　　__行全体の結合__  　　　　 　　　     　　　　　　    __矩形の設置__
+<img src="/images/ocr_images/文字列の切り出し_1.jpg" width = "260"> <img src="/images/ocr_images/文字列の切り出し_2.jpg" width = "260"> <img src="/images/ocr_images/文字列の切り出し_3.jpg" width = "260">  
+　　　　　　__行の位置判定__　　　　　　　　　　__行全体の結合__  　　　　　　   　　　　    __矩形の設置__
 <br>  
 <br>
 
