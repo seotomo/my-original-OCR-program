@@ -219,7 +219,7 @@ __自作OCRプログラム__
 比較のため、既存のOCRツールとして**pyocr+tessaract**を用いて同じ画像に対し文字認識を行った結果を以下に示す。文字認識の前処理として2値化を行っている。  
 <br>
 __pyocr+tessaract__  
-<img src="/images/ocr_images/tessaract_手書き文字.jpg" width = "500">　
+<img src="/images/ocr_images/tessaract_手書き文字.jpg" width = "550">　
 
 　　　　　　　　　　　　　__手書き文字__　　　　　
           
